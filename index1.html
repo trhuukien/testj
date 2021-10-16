@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Blog - Kiz Developer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google" content="notranslate">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        input,
+        select,
+        p {
+            border: 1px solid #111;
+            width: 100%;
+            background: #252525;
+            color: #fff;
+            padding: 11px 26px;
+            margin-bottom: 30px;
+            border-radius: 30px;
+            outline: none !important;
+            transition: .3s;
+        }
+
+        @media screen and (max-width: 516px) {
+            label[for=ig] {
+                float: right;
+            }
+        }
+    </style>
+</head>
+
+<body class="blog-post">
+    <!-- Article Content Starts -->
+    <h1 class="text-uppercase text-capitalize">Dịch vụ hỗ trợ Facebook, Instagram - Kiz</h1>
+
+    <div class='mb-3'>
+        <label for="fb" id='lb_fb' class='btn'>Facebook</label>
+        <input type="radio" value="fb" name="choose" id="fb" onclick="pick(); price()" checked hidden>
+
+        <label for="ig" id='lb_ig' class='btn'>Instagram</label>
+        <input type="radio" value="ig" name="choose" id="ig" onclick="pick(); price()" hidden>
+    </div>
+
+
+    <div class='row'>
+        <div class='col-lg-4'>
+            <input type="number" placeholder="Nhập số lượng..." name="" id="facebook" onkeyup="price()">
+        </div>
+        <div class='col-lg-4'>
+            <select name="sv" id="sv" onchange="price()">
+                <option value="0">Tương tác</option>
+            </select>
+        </div>
+        <div class='col-lg-4'>
+            <p id="price">Thành tiền</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Nhập link Facebook/Instagram..." id="uid" name="">
+        </div>
+    </div>
+    <span>
+        Bạn có thể lấy ID tại đây: <a href="https://findidfb.com/" target="_ blank">Tìm ID Facebook</a>
+    </span>
+    <button onclick="copy('noi dung copy')">Copy</button>
+    <script>
+        function copy(text) {
+            document.body.insertAdjacentHTML("beforeend", "<div id=\"copy\" contenteditable>" + text + "</div>")
+            document.getElementById("copy").focus();
+            document.execCommand("selectAll");
+            document.execCommand("copy");
+            document.getElementById("copy").remove();
+        }
+    </script>
+    <!-- Button trigger modal -->
+    <button onclick="success()" type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+        Hoàn thành
+    </button>
+
+    <!-- Modal -->
+    <div style='color:black;' class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-success" id="exampleModalLongTitle">Hoàn thành</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <b class="text-primary">Thanh toán</b><br>
+                    Để hoàn tất giao dịch!<br>
+                    Bạn có thể chuyển khoản cho tôi!<br>
+                    <span class="text-danger">MOMO: <b>0-86-89-83-309</b> | TRAN HUU KIEN</span><br>
+                    <span class="text-info">BIDV: <b>1161 0000 304848</b> | TRAN HUU KIEN</span><br>
+                    <br>
+                    <b class="text-primary">Hướng dẫn chuyển khoản</b><br>
+                    <span id='send'>
+                        Nội dung: <b>Tên DV | Loại | Số Lượng | ID/Username</b><br>
+                        <span class="text-danger">HD: Bạn cần nhập đầy đủ thông tin để lấy nội dung!</span>
+                    </span>
+                    <br>
+                    <br>
+                    <b class="text-primary">Liên hệ</b><br>
+                    Chat với tôi: <a class='text-primary' href='https://m.me/100052282548835'>Admin</a><br>
+                    Chat ẩn danh: <span class="text-danger">Click</span> vào biểu tượng <span
+                        class="text-danger">messenger</span> phía dưới! Tôi sẽ không biết bạn là ai.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img src="img/blog/instagram.png" class="img-fluid" alt="Blog image" />
+    <script>
+        const like = 25, rec = 40, likepage = 60, follow = 50, cmt = 50, rec_cmt = 60, share = 60, view = 25, group = 150;
+        const like_ig = 50, follow_ig = 100, cmt_ig = 200;
+
+        function pick() {
+            const choose = $('input[name=choose]:checked').val();
+            if (choose == 'fb') {
+                $('#sv').html(
+                    `
+                    <option value="like">Like</option>
+                    <option value="rec">Cảm xúc</option>
+                    <option value="likepage">Like Fangage</option>
+                    <option value="follow">Follow</option>
+                    <option value="cmt">Comment</option>
+                    <option value="rec_cmt">Cảm xúc comment</option>
+                    <option value="share">Share</option>
+                    <option value="view">View Story</option>
+                    <option value="group">Thành viên nhóm</option>
+                    `
+                );
+                $('#lb_fb').addClass("selected");
+                $('#lb_ig').removeClass("selected");
+            } else if (choose == 'ig') {
+                $('#sv').html(
+                    `
+                    <option value="like_ig">Like</option>
+                    <option value="follow_ig">Follow</option>
+                    <option value="cmt_ig">Comment</option>
+                    `
+                );
+                $('#lb_ig').addClass("selected");
+                $('#lb_fb').removeClass("selected");
+            } else {
+                $('#sv').html(
+                    `
+                    <option value="0">Chưa có dịch vụ!</option>
+                    `
+                );
+            }
+        }
+
+        function price() {
+            const sv = $('select[name=sv]').val();
+            const qty = $('#facebook').val();
+
+            if (sv != 0) {
+                if (qty < 100) {
+                    $('#price').html('Giá trị quá nhỏ!');
+                } else if (qty > 10000) {
+                    $('#price').html('Giá trị quá lớn!');
+                } else if (qty != parseInt(qty)) {
+                    $('#price').html('Giá trị không hợp lệ!');
+                } else {
+                    if (sv == 'like') {
+                        $('#price').html(formatter.format(like * qty));
+                    } else if (sv == 'rec') {
+                        $('#price').html(formatter.format(rec * qty));
+                    } else if (sv == 'likepage') {
+                        $('#price').html(formatter.format(likepage * qty));
+                    } else if (sv == 'follow') {
+                        $('#price').html(formatter.format(follow * qty));
+                    } else if (sv == 'cmt') {
+                        $('#price').html(formatter.format(cmt * qty));
+                    } else if (sv == 'rec_cmt') {
+                        $('#price').html(formatter.format(rec_cmt * qty));
+                    } else if (sv == 'share') {
+                        $('#price').html(formatter.format(share * qty));
+                    } else if (sv == 'view') {
+                        $('#price').html(formatter.format(view * qty));
+                    } else if (sv == 'group') {
+                        $('#price').html(formatter.format(group * qty));
+                    }
+                }
+
+                if (sv == 'like_ig') {
+                    if (qty < 50) {
+                        $('#price').html('Giá trị quá nhỏ!');
+                    } else if (qty > 2000) {
+                        $('#price').html('Giá trị quá lớn!');
+                    } else if (qty != parseInt(qty)) {
+                        $('#price').html('Giá trị không hợp lệ!');
+                    } else {
+                        $('#price').html(formatter.format(like_ig * qty));
+                    }
+                } else if (sv == 'follow_ig') {
+                    if (qty < 50) {
+                        $('#price').html('Giá trị quá nhỏ!');
+                    } else if (qty > 1000) {
+                        $('#price').html('Giá trị quá lớn!');
+                    } else if (qty != parseInt(qty)) {
+                        $('#price').html('Giá trị không hợp lệ!');
+                    } else {
+                        $('#price').html(formatter.format(follow_ig * qty));
+                    }
+                } else if (sv == 'cmt_ig') {
+                    if (qty < 10) {
+                        $('#price').html('Giá trị quá nhỏ!');
+                    } else if (qty > 100) {
+                        $('#price').html('Giá trị quá lớn!');
+                    } else if (qty != parseInt(qty)) {
+                        $('#price').html('Giá trị không hợp lệ!');
+                    } else {
+                        $('#price').html(formatter.format(cmt_ig * qty));
+                    }
+                }
+            } else {
+                $('#price').html('Chọn dịch vụ!');
+            }
+        }
+
+        function success() {
+            const choose = $('input[name=choose]:checked').val();
+            const sv = $('select[name=sv]').val();
+            const qty = $('#facebook').val();
+            const uid = $('#uid').val();
+            const price = $('#price').html();
+
+            if (choose && sv && qty && price && uid) {
+                $('#send').html(`
+                    Nội dung: <b class="text-danger">${choose} | ${sv} | ${qty} | ${uid}</b>
+                    <br>
+                    Số tiền: <b class="text-danger">${price}</b>
+                    `);
+            }
+        }
+
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'VND',
+            minimumFractionDigits: 0
+        })
+
+    </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

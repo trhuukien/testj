@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            display: none;
+            visibility: hidden;
+            width: 140px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -75px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>Click vô nút Copy để copy text. Bạn thử dùng Ctrl+V để dán nội dung đã copy.</p>
+
+    <section id="myInput">Nội dung sẽ được copy ở đây</section>
+
+    <section class="tooltip">
+        <button onclick="myFunction()">
+            <span class="tooltiptext" id="myTooltip" style="color: bl;"></span>
+            Copy
+        </button>
+    </section>
+
+    <p>Phương thức document.execCommand() không được hỗ trợ đối với IE8 trở xuống.</p>
+
+    <script>
+        function myFunction() {
+            var copyText = document.getElementById("myInput");
+            var input = document.createElement("INPUT");
+            document.body.appendChild(input);
+            input.value = copyText.innerHTML;
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            document.body.removeChild(input);
+
+            var tooltip = document.getElementById("myTooltip");
+            tooltip.style.display = 'block';
+            tooltip.innerHTML = "Đã copy";
+        }
+    </script>
+
+</body>
+
+</html>
